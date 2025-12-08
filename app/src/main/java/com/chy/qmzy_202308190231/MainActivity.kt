@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 class MainActivity : AppCompatActivity() {
     
     private lateinit var btnStartScan: Button
+    private lateinit var btnGenerate: Button
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,10 +24,14 @@ class MainActivity : AppCompatActivity() {
         }
         
         btnStartScan = findViewById(R.id.btnStartScan)
+        btnGenerate = findViewById(R.id.btnGenerate)
         
         btnStartScan.setOnClickListener {
-            val intent = Intent(this, QRScanActivity::class.java)
-            startActivity(intent)
+            navigateToScan(finishCurrent = false)
+        }
+        
+        btnGenerate.setOnClickListener {
+            navigateToGenerate(finishCurrent = false)
         }
     }
 }

@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +20,7 @@ class QRResultActivity : AppCompatActivity() {
     private lateinit var btnCopy: Button
     private lateinit var btnOpenLink: Button
     private lateinit var btnRescan: Button
-    private lateinit var btnBack: Button
+    private lateinit var btnBack: ImageButton
     
     private var scanResult: String = ""
 
@@ -55,16 +56,11 @@ class QRResultActivity : AppCompatActivity() {
         }
 
         btnRescan.setOnClickListener {
-            val intent = Intent(this, QRScanActivity::class.java)
-            startActivity(intent)
-            finish()
+            navigateToScan()
         }
 
         btnBack.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            startActivity(intent)
-            finish()
+            navigateBack()
         }
     }
 

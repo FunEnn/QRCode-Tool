@@ -14,6 +14,7 @@ import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -36,7 +37,7 @@ class QRGenerateActivity : AppCompatActivity() {
     private lateinit var ivQRCode: ImageView
     private lateinit var btnSave: Button
     private lateinit var btnShare: Button
-    private lateinit var btnBack: Button
+    private lateinit var btnBack: ImageButton
     
     private var currentQRBitmap: Bitmap? = null
 
@@ -79,10 +80,7 @@ class QRGenerateActivity : AppCompatActivity() {
         }
 
         btnBack.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            startActivity(intent)
-            finish()
+            navigateToHome()
         }
     }
 

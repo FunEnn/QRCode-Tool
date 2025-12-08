@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -27,7 +28,7 @@ class QRScanActivity : AppCompatActivity() {
 
     private lateinit var previewView: PreviewView
     private lateinit var tvResult: TextView
-    private lateinit var btnBack: Button
+    private lateinit var btnBack: ImageButton
     private lateinit var btnSelectFromGallery: Button
     private lateinit var cameraExecutor: ExecutorService
     private var camera: Camera? = null
@@ -60,7 +61,7 @@ class QRScanActivity : AppCompatActivity() {
         cameraExecutor = Executors.newSingleThreadExecutor()
 
         btnBack.setOnClickListener {
-            finish()
+            navigateBack()
         }
 
         btnSelectFromGallery.setOnClickListener {
