@@ -21,7 +21,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
@@ -31,15 +30,27 @@ import java.io.OutputStream
 
 class QRGenerateActivity : AppCompatActivity() {
 
+    // 类型切换按钮
+    private lateinit var btnTypeText: Button
+    private lateinit var btnTypeUrl: Button
+
     private lateinit var etContent: EditText
     private lateinit var btnGenerate: Button
+
+    // 结果展示区域
+    private lateinit var cardResult: View // 结果卡片容器
     private lateinit var tvQRLabel: TextView
     private lateinit var ivQRCode: ImageView
     private lateinit var btnSave: Button
     private lateinit var btnShare: Button
     private lateinit var btnBack: ImageButton
-    
+
     private var currentQRBitmap: Bitmap? = null
+    private var currentType: QRType = QRType.TEXT
+
+    enum class QRType {
+        TEXT, URL
+    }
 
     companion object {
         private const val STORAGE_PERMISSION_CODE = 102
@@ -50,28 +61,70 @@ class QRGenerateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_generate)
 
+        initViews()
+        setupListeners()
+
+        // 初始化为文本类型
+        switchType(QRType.TEXT)
+    }
+
+    private fun initViews() {
+        // 初始化类型切换按钮
+        btnTypeText = findViewById(R.id.btnTypeText)
+        btnTypeUrl = findViewById(R.id.btnTypeUrl)
+
         etContent = findViewById(R.id.etContent)
         btnGenerate = findViewById(R.id.btnGenerate)
+
+        // 结果区域
+        cardResult = findViewById(R.id.cardResult) // 绑定卡片容器
         tvQRLabel = findViewById(R.id.tvQRLabel)
         ivQRCode = findViewById(R.id.ivQRCode)
         btnSave = findViewById(R.id.btnSave)
         btnShare = findViewById(R.id.btnShare)
         btnBack = findViewById(R.id.btnBack)
+    }
+
+    private fun setupListeners() {
+        // 类型切换监听
+        btnTypeText.setOnClickListener { switchType(QRType.TEXT) }
+        btnTypeUrl.setOnClickListener { switchType(QRType.URL) }
 
         btnGenerate.setOnClickListener {
-            val content = etContent.text.toString().trim()
+            var content = etContent.text.toString().trim()
             if (content.isEmpty()) {
                 Toast.makeText(this, "请输入要生成二维码的内容", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
+            // URL类型验证和自动补全 (仅针对 URL 模式)
+            if (currentType == QRType.URL) {
+                if (!isValidUrl(content)) {
+                    // 尝试自动补全
+                    if (!content.startsWith("http://") && !content.startsWith("https://")) {
+                        content = "https://$content"
+                        etContent.setText(content)
+                        Toast.makeText(this, "已自动补全为：$content", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "请输入有效的网址", Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+                }
+            }
+
             generateQRCode(content)
         }
 
         btnSave.setOnClickListener {
-            if (checkStoragePermission()) {
+            // Android 10 (API 29) 及以上通常不需要写权限即可保存到相册
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 saveQRCodeToGallery()
             } else {
-                requestStoragePermission()
+                if (checkStoragePermission()) {
+                    saveQRCodeToGallery()
+                } else {
+                    requestStoragePermission()
+                }
             }
         }
 
@@ -80,7 +133,46 @@ class QRGenerateActivity : AppCompatActivity() {
         }
 
         btnBack.setOnClickListener {
-            navigateToHome()
+            finish()
+        }
+    }
+
+    private fun switchType(type: QRType) {
+        currentType = type
+
+        // 切换类型时，隐藏之前的生成结果，避免混淆
+        if (::cardResult.isInitialized) {
+            cardResult.visibility = View.GONE
+        }
+
+        // 更新按钮颜色
+        val selectedColor = getColor(android.R.color.holo_blue_dark)
+        val unselectedColor = getColor(android.R.color.darker_gray) // 或者使用 #F0F0F0 对应的颜色资源
+
+        btnTypeText.setBackgroundColor(if (type == QRType.TEXT) selectedColor else unselectedColor)
+        btnTypeUrl.setBackgroundColor(if (type == QRType.URL) selectedColor else unselectedColor)
+
+        // 按钮文字颜色反转逻辑（可选，为了更好的视觉效果）
+        btnTypeText.setTextColor(if (type == QRType.TEXT) Color.WHITE else Color.parseColor("#666666"))
+        btnTypeUrl.setTextColor(if (type == QRType.URL) Color.WHITE else Color.parseColor("#666666"))
+
+        // 更新界面显示
+        when (type) {
+            QRType.TEXT -> {
+                etContent.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
+            }
+            QRType.URL -> {
+                etContent.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_URI
+            }
+        }
+    }
+
+    private fun isValidUrl(url: String): Boolean {
+        return try {
+            val pattern = Regex("^(http://|https://).+")
+            pattern.matches(url) && url.contains(".")
+        } catch (e: Exception) {
+            false
         }
     }
 
@@ -89,6 +181,7 @@ class QRGenerateActivity : AppCompatActivity() {
             val hints = hashMapOf<EncodeHintType, Any>()
             hints[EncodeHintType.CHARACTER_SET] = "UTF-8"
             hints[EncodeHintType.MARGIN] = 1
+            hints[EncodeHintType.ERROR_CORRECTION] = com.google.zxing.qrcode.decoder.ErrorCorrectionLevel.M
 
             val qrCodeWriter = QRCodeWriter()
             val bitMatrix = qrCodeWriter.encode(
@@ -111,26 +204,27 @@ class QRGenerateActivity : AppCompatActivity() {
 
             currentQRBitmap = bitmap
             ivQRCode.setImageBitmap(bitmap)
-            
-            tvQRLabel.visibility = View.VISIBLE
-            ivQRCode.visibility = View.VISIBLE
-            btnSave.visibility = View.VISIBLE
-            btnShare.visibility = View.VISIBLE
+
+            // 显示包含所有结果元素的 CardView
+            cardResult.visibility = View.VISIBLE
 
             Toast.makeText(this, "二维码生成成功", Toast.LENGTH_SHORT).show()
 
         } catch (e: Exception) {
             Toast.makeText(this, "生成失败: ${e.message}", Toast.LENGTH_SHORT).show()
+            e.printStackTrace()
         }
     }
 
     private fun checkStoragePermission(): Boolean {
+        // Android 13+ 使用 READ_MEDIA_IMAGES
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.READ_MEDIA_IMAGES
             ) == PackageManager.PERMISSION_GRANTED
         } else {
+            // Android 12及以下使用 WRITE_EXTERNAL_STORAGE
             ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -139,16 +233,19 @@ class QRGenerateActivity : AppCompatActivity() {
     }
 
     private fun requestStoragePermission() {
-        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            Manifest.permission.READ_MEDIA_IMAGES
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.READ_MEDIA_IMAGES),
+                STORAGE_PERMISSION_CODE
+            )
         } else {
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                STORAGE_PERMISSION_CODE
+            )
         }
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(permission),
-            STORAGE_PERMISSION_CODE
-        )
     }
 
     override fun onRequestPermissionsResult(
@@ -167,37 +264,37 @@ class QRGenerateActivity : AppCompatActivity() {
     }
 
     private fun saveQRCodeToGallery() {
-        val bitmap = currentQRBitmap
-        if (bitmap == null) {
-            Toast.makeText(this, "请先生成二维码", Toast.LENGTH_SHORT).show()
-            return
-        }
+        val bitmap = currentQRBitmap ?: return
+
+        val filename = "QR_${System.currentTimeMillis()}.jpg"
+        var fos: OutputStream? = null
+        var imageUri: Uri? = null
 
         try {
-            val filename = "QRCode_${System.currentTimeMillis()}.png"
-            var fos: OutputStream? = null
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                val resolver = contentResolver
                 val contentValues = ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
-                    put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
-                    put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+                    put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+                    put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/QRTool")
                 }
-                val imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-                fos = imageUri?.let { resolver.openOutputStream(it) }
+
+                val contentResolver = contentResolver
+                imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+                fos = imageUri?.let { contentResolver.openOutputStream(it) }
             } else {
                 val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
                 val image = File(imagesDir, filename)
                 fos = FileOutputStream(image)
+                imageUri = Uri.fromFile(image)
             }
 
             fos?.use {
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
-                Toast.makeText(this, "二维码已保存到相册", Toast.LENGTH_SHORT).show()
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
+                Toast.makeText(this, "已保存到相册", Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {
             Toast.makeText(this, "保存失败: ${e.message}", Toast.LENGTH_SHORT).show()
+            e.printStackTrace()
         }
     }
 
@@ -209,28 +306,27 @@ class QRGenerateActivity : AppCompatActivity() {
         }
 
         try {
-            val cachePath = File(cacheDir, "images")
+            // 将Bitmap保存到缓存目录用于分享
+            val cachePath = File(externalCacheDir, "my_images/")
             cachePath.mkdirs()
-            val file = File(cachePath, "qrcode_share.png")
+            val file = File(cachePath, "share_qr.png")
             val fileOutputStream = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
             fileOutputStream.close()
 
-            val uri = FileProvider.getUriForFile(
-                this,
-                "${applicationContext.packageName}.provider",
-                file
-            )
+            // 尝试使用 insertImage 来获取一个 content:// uri (兼容性方案)
+            val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "QR Share", null)
+            val uri = Uri.parse(path)
 
-            val shareIntent = Intent(Intent.ACTION_SEND).apply {
-                type = "image/png"
-                putExtra(Intent.EXTRA_STREAM, uri)
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.type = "image/*"
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
 
             startActivity(Intent.createChooser(shareIntent, "分享二维码"))
+
         } catch (e: Exception) {
             Toast.makeText(this, "分享失败: ${e.message}", Toast.LENGTH_SHORT).show()
+            e.printStackTrace()
         }
     }
 }

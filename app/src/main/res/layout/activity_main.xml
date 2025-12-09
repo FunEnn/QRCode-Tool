@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5F7FA"
     tools:context=".MainActivity">
 
     <!-- Header 区域 -->
@@ -16,30 +17,27 @@
         android:elevation="4dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Header 标题 -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="二维码工具箱"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:ellipsize="end" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 
-    <!-- 内容区域 -->
+    <!-- 内容滚动区域 -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clipToPadding="false"
         android:fillViewport="true"
+        android:paddingBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,74 +48,174 @@
             android:layout_height="wrap_content"
             android:padding="16dp">
 
-            <TextView
-                android:id="@+id/tvAppDescription"
-                android:layout_width="0dp"
+            <!-- 欢迎语/Slogan -->
+            <LinearLayout
+                android:id="@+id/layoutWelcome"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="扫描识别 • 快速生成 • 一键分享"
-                android:textColor="#757575"
-                android:textSize="14sp"
-                android:maxLines="2"
-                android:ellipsize="end"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <!-- 扫描按钮 -->
-            <Button
-                android:id="@+id/btnStartScan"
-                android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="极简 · 高效 · 智能"
+                    android:textColor="#1976D2"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="您的随身二维码助手"
+                    android:textColor="#757575"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!-- 核心功能入口区 (改为并排大卡片) -->
+            <LinearLayout
+                android:id="@+id/layoutActions"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="6dp"
-                android:minHeight="68dp"
-                android:backgroundTint="#4CAF50"
-                android:drawableTop="@android:drawable/ic_menu_camera"
-                android:text="扫描"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:maxLines="1"
-                app:layout_constraintEnd_toStartOf="@id/btnGenerate"
-                app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvAppDescription" />
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/layoutWelcome">
 
-            <!-- 生成按钮 -->
-            <Button
-                android:id="@+id/btnGenerate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:minHeight="68dp"
-                android:backgroundTint="#2196F3"
-                android:drawableTop="@android:drawable/ic_menu_add"
-                android:text="生成"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:maxLines="1"
-                app:layout_constraintBaseline_toBaselineOf="@id/btnStartScan"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btnStartScan"
-                app:layout_constraintTop_toTopOf="@id/btnStartScan" />
+                <!-- 1. 扫描功能卡片 -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/btnStartScanCard"
+                    android:layout_width="0dp"
+                    android:layout_height="140dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="2dp">
 
-            <!-- 功能卡片区域 -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:id="@+id/ivScanIcon"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="#F0F0F0"
+                            android:padding="10dp"
+                            android:src="@android:drawable/ic_menu_camera"
+                            app:layout_constraintBottom_toTopOf="@+id/tvScanTitle"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed"
+                            app:tint="#4CAF50" />
+
+                        <TextView
+                            android:id="@+id/tvScanTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="扫一扫"
+                            android:textColor="#333333"
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@+id/tvScanDesc"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/ivScanIcon" />
+
+                        <TextView
+                            android:id="@+id/tvScanDesc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="识别二维码/条码"
+                            android:textColor="#999999"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvScanTitle" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- 2. 生成功能卡片 -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/btnGenerateCard"
+                    android:layout_width="0dp"
+                    android:layout_height="140dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="2dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:id="@+id/ivGenIcon"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="#F0F0F0"
+                            android:padding="10dp"
+                            android:src="@android:drawable/ic_menu_add"
+                            app:layout_constraintBottom_toTopOf="@+id/tvGenTitle"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed"
+                            app:tint="#2196F3" />
+
+                        <TextView
+                            android:id="@+id/tvGenTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="去生成"
+                            android:textColor="#333333"
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@+id/tvGenDesc"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/ivGenIcon" />
+
+                        <TextView
+                            android:id="@+id/tvGenDesc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="制作个性二维码"
+                            android:textColor="#999999"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvGenTitle" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <!-- 功能列表卡片 (美化后的 Features) -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardFeatures"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="24dp"
+                app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnStartScan">
+                app:cardElevation="1dp"
+                app:layout_constraintTop_toBottomOf="@id/layoutActions">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -125,22 +223,111 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="✨ 功能特点"
-                        android:textColor="#1976D2"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                    <TextView
+                        <View
+                            android:layout_width="4dp"
+                            android:layout_height="16dp"
+                            android:background="#1976D2"
+                            android:backgroundTint="#1976D2" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="功能特点"
+                            android:textColor="#333333"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- Feature Item 1 -->
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:lineSpacingExtra="6dp"
-                        android:text="📸 扫描识别\n支持多种二维码格式（QR、微信、支付宝等）\n相机实时扫描 + 相册图片识别\n\n🎨 快速生成\n自定义内容生成二维码\n高清输出，一键保存\n\n🔗 智能识别\n自动识别网址并打开\n一键复制内容，快速分享"
-                        android:textColor="#424242"
-                        android:textSize="15sp" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="📸  极速扫描"
+                            android:textColor="#333333"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="支持 QR、条形码等多种格式，相册图片一键识别"
+                            android:textColor="#666666"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:background="#F0F0F0" />
+
+                    <!-- Feature Item 2 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🎨  个性创作"
+                            android:textColor="#333333"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="文本、网址、名片快速生成，支持高清保存"
+                            android:textColor="#666666"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:background="#F0F0F0" />
+
+                    <!-- Feature Item 3 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🔗  智能处理"
+                            android:textColor="#333333"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="自动识别链接，一键复制分享，操作更便捷"
+                            android:textColor="#666666"
+                            android:textSize="13sp" />
+                    </LinearLayout>
 
                 </LinearLayout>
 

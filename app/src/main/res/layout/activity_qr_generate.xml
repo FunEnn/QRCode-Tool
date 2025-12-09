@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5F7FA"
     tools:context=".QRGenerateActivity">
 
     <!-- Header 区域 -->
@@ -21,28 +22,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- 返回按钮 -->
         <ImageButton
             android:id="@+id/btnBack"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/ic_back_arrow"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="返回"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:src="@drawable/ic_back_arrow"
+            app:tint="#FFFFFF" />
 
-        <!-- Header 标题 -->
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="生成二维码"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:ellipsize="end" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -51,6 +51,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,114 +63,198 @@
             android:layout_height="wrap_content"
             android:padding="16dp">
 
-            <!-- 输入内容标签 -->
-            <TextView
-                android:id="@+id/tvInputLabel"
-                android:layout_width="0dp"
+            <!-- 1. 输入区域卡片 -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardInput"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="请输入要生成二维码的内容："
-                android:textColor="#333333"
-                android:textSize="16sp"
-                android:maxLines="2"
-                android:ellipsize="end"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <!-- 输入框 -->
-            <EditText
-                android:id="@+id/etContent"
-                android:layout_width="0dp"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/tvTypeLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="选择类型"
+                        android:textColor="#333333"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <!-- 类型切换按钮组 (已移除图片按钮) -->
+                    <LinearLayout
+                        android:id="@+id/layoutTypeButtons"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvTypeLabel">
+
+                        <Button
+                            android:id="@+id/btnTypeText"
+                            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="44dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:text="📝 文本"
+                            android:textSize="14sp"
+                            app:cornerRadius="8dp"
+                            android:backgroundTint="#1976D2" />
+
+                        <Button
+                            android:id="@+id/btnTypeUrl"
+                            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="44dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="6dp"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:text="🌐 网址"
+                            android:textSize="14sp"
+                            app:cornerRadius="8dp"
+                            android:backgroundTint="#F0F0F0"
+                            android:textColor="#666666"/>
+                    </LinearLayout>
+
+                    <!-- 使用 TextInputLayout 优化输入框样式 -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilContent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        app:boxCornerRadiusTopStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusBottomEnd="8dp"
+                        app:hintEnabled="true"
+                        android:hint="请输入内容"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/layoutTypeButtons">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="top"
+                            android:inputType="textMultiLine"
+                            android:minHeight="120dp"
+                            android:textColor="#333333"
+                            android:textSize="16sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- 生成按钮 -->
+                    <Button
+                        android:id="@+id/btnGenerate"
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="24dp"
+                        android:backgroundTint="#1976D2"
+                        android:text="立即生成"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="28dp"
+                        android:elevation="4dp"
+                        android:stateListAnimator="@null"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilContent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 2. 结果区域卡片 -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardResult"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:background="@android:drawable/edit_text"
-                android:gravity="top"
-                android:hint="例如：网址、文本、名片信息等"
-                android:inputType="textMultiLine"
-                android:minHeight="120dp"
-                android:padding="12dp"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvInputLabel" />
-
-            <!-- 生成按钮 -->
-            <Button
-                android:id="@+id/btnGenerate"
-                android:layout_width="0dp"
-                android:layout_height="56dp"
                 android:layout_marginTop="24dp"
-                android:backgroundTint="#4CAF50"
-                android:text="生成二维码"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etContent" />
-
-            <!-- 二维码显示标签 -->
-            <TextView
-                android:id="@+id/tvQRLabel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="生成的二维码："
-                android:textColor="#333333"
-                android:textSize="16sp"
                 android:visibility="gone"
-                android:maxLines="1"
-                android:ellipsize="end"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnGenerate" />
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardInput">
 
-            <!-- 二维码显示区域 -->
-            <ImageView
-                android:id="@+id/ivQRCode"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                android:layout_marginTop="16dp"
-                android:background="#F5F5F5"
-                android:contentDescription="生成的二维码"
-                android:padding="16dp"
-                android:scaleType="fitCenter"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvQRLabel" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="24dp">
 
-            <!-- 保存按钮 -->
-            <Button
-                android:id="@+id/btnSave"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="#2196F3"
-                android:text="保存到相册"
-                android:textColor="#FFFFFF"
-                android:visibility="gone"
-                app:layout_constraintEnd_toStartOf="@id/btnShare"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ivQRCode" />
+                    <TextView
+                        android:id="@+id/tvQRLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="生成结果"
+                        android:textColor="#333333"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- 分享按钮 -->
-            <Button
-                android:id="@+id/btnShare"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:backgroundTint="#FF9800"
-                android:text="分享"
-                android:textColor="#FFFFFF"
-                android:visibility="gone"
-                app:layout_constraintBaseline_toBaselineOf="@id/btnSave"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btnSave" />
+                    <!-- 二维码显示 -->
+                    <ImageView
+                        android:id="@+id/ivQRCode"
+                        android:layout_width="260dp"
+                        android:layout_height="260dp"
+                        android:layout_marginTop="20dp"
+                        android:background="#FAFAFA"
+                        android:contentDescription="二维码"
+                        android:padding="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvQRLabel" />
+
+                    <!-- 按钮区域 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btnSave"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:text="保存相册"
+                            android:textColor="#1976D2"
+                            app:cornerRadius="25dp"
+                            app:strokeColor="#1976D2" />
+
+                        <Button
+                            android:id="@+id/btnShare"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="#FF9800"
+                            android:text="分享好友"
+                            android:textColor="#FFFFFF"
+                            app:cornerRadius="25dp" />
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
