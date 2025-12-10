@@ -104,7 +104,6 @@ class QRGenerateActivity : AppCompatActivity() {
                     if (!content.startsWith("http://") && !content.startsWith("https://")) {
                         content = "https://$content"
                         etContent.setText(content)
-                        Toast.makeText(this, "已自动补全为：$content", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(this, "请输入有效的网址", Toast.LENGTH_SHORT).show()
                         return@setOnClickListener
@@ -147,7 +146,7 @@ class QRGenerateActivity : AppCompatActivity() {
 
         // 更新按钮颜色
         val selectedColor = getColor(android.R.color.holo_blue_dark)
-        val unselectedColor = getColor(android.R.color.darker_gray) // 或者使用 #F0F0F0 对应的颜色资源
+        val unselectedColor = getColor(android.R.color.darker_gray)
 
         btnTypeText.setBackgroundColor(if (type == QRType.TEXT) selectedColor else unselectedColor)
         btnTypeUrl.setBackgroundColor(if (type == QRType.URL) selectedColor else unselectedColor)
@@ -314,7 +313,6 @@ class QRGenerateActivity : AppCompatActivity() {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
             fileOutputStream.close()
 
-            // 尝试使用 insertImage 来获取一个 content:// uri (兼容性方案)
             val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "QR Share", null)
             val uri = Uri.parse(path)
 

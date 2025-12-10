@@ -75,7 +75,7 @@
                     android:textSize="13sp" />
             </LinearLayout>
 
-            <!-- 核心功能入口区 (改为并排大卡片) -->
+            <!-- 核心功能入口区 (第一行：基础功能) -->
             <LinearLayout
                 android:id="@+id/layoutActions"
                 android:layout_width="match_parent"
@@ -107,7 +107,7 @@
                             android:id="@+id/ivScanIcon"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:background="#F0F0F0"
+                            android:background="#E8F5E9"
                             android:padding="10dp"
                             android:src="@android:drawable/ic_menu_camera"
                             app:layout_constraintBottom_toTopOf="@+id/tvScanTitle"
@@ -134,7 +134,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="识别二维码/条码"
+                            android:text="识别二维码"
                             android:textColor="#999999"
                             android:textSize="12sp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -167,7 +167,7 @@
                             android:id="@+id/ivGenIcon"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:background="#F0F0F0"
+                            android:background="#E3F2FD"
                             android:padding="10dp"
                             android:src="@android:drawable/ic_menu_add"
                             app:layout_constraintBottom_toTopOf="@+id/tvGenTitle"
@@ -194,7 +194,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="制作个性二维码"
+                            android:text="制作个性码"
                             android:textColor="#999999"
                             android:textSize="12sp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -206,7 +206,80 @@
 
             </LinearLayout>
 
-            <!-- 功能列表卡片 (美化后的 Features) -->
+            <!-- 新增：个性化设计入口 (第二行：高级功能) -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnDesignCard"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:layout_constraintTop_toBottomOf="@id/layoutActions">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp">
+
+                    <ImageView
+                        android:id="@+id/ivDesignIcon"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="#FFF3E0"
+                        android:padding="10dp"
+                        android:src="@android:drawable/ic_menu_edit"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="#FF9800" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/ivDesignIcon"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="个性化美化"
+                            android:textColor="#333333"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="自定义颜色、添加Logo、修改背景"
+                            android:textColor="#999999"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <!-- 右侧箭头指示 -->
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_back_arrow"
+                        android:rotation="180"
+                        app:tint="#CCCCCC"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 功能列表卡片 (Features) -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardFeatures"
                 android:layout_width="match_parent"
@@ -215,7 +288,7 @@
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="1dp"
-                app:layout_constraintTop_toBottomOf="@id/layoutActions">
+                app:layout_constraintTop_toBottomOf="@id/btnDesignCard">
 
                 <LinearLayout
                     android:layout_width="match_parent"

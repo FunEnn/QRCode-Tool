@@ -61,7 +61,7 @@ class QRScanActivity : AppCompatActivity() {
         cameraExecutor = Executors.newSingleThreadExecutor()
 
         btnBack.setOnClickListener {
-            navigateBack()
+            finish() 
         }
 
         btnSelectFromGallery.setOnClickListener {
@@ -168,21 +168,19 @@ class QRScanActivity : AppCompatActivity() {
                             startActivity(intent)
                             finish()
                         } ?: run {
-                            Toast.makeText(this, "未能识别二维码内容", Toast.LENGTH_SHORT).show()
-                            tvResult.text = "正在扫描..."
+                            tvResult.text = "未能识别二维码内容"
                         }
                     } else {
-                        Toast.makeText(this, "图片中未找到二维码", Toast.LENGTH_SHORT).show()
-                        tvResult.text = "正在扫描..."
+                        tvResult.text = "图片中未找到二维码"
                     }
                 }
                 .addOnFailureListener { e ->
                     Toast.makeText(this, "识别失败: ${e.message}", Toast.LENGTH_SHORT).show()
-                    tvResult.text = "正在扫描..."
+                    tvResult.text = "识别失败"
                 }
         } catch (e: Exception) {
             Toast.makeText(this, "图片加载失败: ${e.message}", Toast.LENGTH_SHORT).show()
-            tvResult.text = "正在扫描..."
+            tvResult.text = "图片加载失败"
         }
     }
 

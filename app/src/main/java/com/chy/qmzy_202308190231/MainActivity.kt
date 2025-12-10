@@ -40,5 +40,11 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, QRScanActivity::class.java)
             startActivity(intent)
         }
+
+        val btnDesignCard: View = findViewById(R.id.btnDesignCard)
+        btnDesignCard.setOnClickListener {
+            startActivity(Intent(this, QRDesignActivity::class.java))
+        }
+
     }
 }
