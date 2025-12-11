@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 横向移动动画（从左到右） -->
+    <translate
+        android:fromXDelta="0%"
+        android:toXDelta="100%"
+        android:duration="2000"
+        android:repeatMode="reverse"
+        android:repeatCount="infinite"
+        android:interpolator="@android:interpolator/linear" />
+
+    <!-- 透明度变化（轻微闪烁效果） -->
+    <alpha
+        android:fromAlpha="0.6"
+        android:toAlpha="1.0"
+        android:duration="800"
+        android:repeatMode="reverse"
+        android:repeatCount="infinite"
+        android:interpolator="@android:interpolator/bounce" />
+
+</set>

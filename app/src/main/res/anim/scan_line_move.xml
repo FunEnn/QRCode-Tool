@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:repeatMode="restart"
+    android:repeatCount="infinite">
+
+    <!-- 从上到下的移动动画 -->
+    <translate
+        android:fromYDelta="-100%"
+        android:toYDelta="100%"
+        android:duration="2500"
+        android:interpolator="@android:interpolator/linear" />
+
+    <!-- 透明度变化 -->
+    <alpha
+        android:fromAlpha="0.3"
+        android:toAlpha="1.0"
+        android:duration="1200"
+        android:repeatMode="reverse"
+        android:repeatCount="1" />
+
+</set>

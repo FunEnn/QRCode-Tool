@@ -102,62 +102,152 @@
                 android:textStyle="bold"
                 android:textColor="#1976D2"/>
 
-            <LinearLayout
+            <!-- 色板选择 GridLayout -->
+            <GridLayout
+                android:id="@+id/colorPaletteGrid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:orientation="horizontal">
+                android:columnCount="5"
+                android:rowCount="3"
+                android:alignmentMode="alignBounds">
 
-                <!-- 黑色(默认) -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="16dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="0dp">
-                    <View
-                        android:id="@+id/colorBlack"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="#000000"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:foreground="?attr/selectableItemBackgroundBorderless"/>
-                </androidx.cardview.widget.CardView>
-
-                <!-- 蓝色 -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="16dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="0dp">
-                    <View
-                        android:id="@+id/colorBlue"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="#1976D2"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:foreground="?attr/selectableItemBackgroundBorderless"/>
-                </androidx.cardview.widget.CardView>
-
-                <!-- 红色 -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="0dp">
-                    <View
-                        android:id="@+id/colorRed"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="#D32F2F"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:foreground="?attr/selectableItemBackgroundBorderless"/>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="#000000"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:tag="#000000"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="#1976D2"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:tag="#1976D2"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="#D32F2F"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:tag="#D32F2F"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="#388E3C"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:tag="#388E3C"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="#7B1FA2"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:tag="#7B1FA2"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="#FF9800"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:tag="#FF9800"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="#0097A7"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:tag="#0097A7"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="#5D4037"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:tag="#5D4037"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="#455A64"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:tag="#455A64"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="#C2185B"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:tag="#C2185B"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="#512DA8"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:tag="#512DA8"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="#0288D1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:tag="#0288D1"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="#00796B"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:tag="#00796B"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="#689F38"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:tag="#689F38"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="#FF5722"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:tag="#FF5722"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+            </GridLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -183,8 +273,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="32dp"
-                android:text="生成设计"
-                android:backgroundTint="#1976D2"
+                android:text="保存二维码"
+                android:backgroundTint="#4CAF50"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold"

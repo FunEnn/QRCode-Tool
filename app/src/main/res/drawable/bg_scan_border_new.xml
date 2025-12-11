@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 边框渐变效果 -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#00000000" />
+            <stroke
+                android:width="2dp"
+                android:color="#4CAF50" />
+            <corners android:radius="16dp" />
+        </shape>
+    </item>
+
+    <!-- 四个角标 -->
+    <!-- 左上角 -->
+    <item android:left="0dp" android:top="0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#4CAF50" />
+            <size android:width="20dp" android:height="4dp" />
+        </shape>
+    </item>
+    <item android:left="0dp" android:top="0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#4CAF50" />
+            <size android:width="4dp" android:height="20dp" />
+        </shape>
+    </item>
+
+    <!-- 右上角 -->
+    <item android:right="0dp" android:top="0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#4CAF50" />
+            <size android:width="20dp" android:height="4dp" />
+        </shape>
+    </item>
+    <item android:right="0dp" android:top="0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#4CAF50" />
+            <size android:width="4dp" android:height="20dp" />
+        </shape>
+    </item>
+
+    <!-- 左下角 -->
+    <item android:left="0dp" android:bottom="0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#4CAF50" />
+            <size android:width="20dp" android:height="4dp" />
+        </shape>
+    </item>
+    <item android:left="0dp" android:bottom="0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#4CAF50" />
+            <size android:width="4dp" android:height="20dp" />
+        </shape>
+    </item>
+
+    <!-- 右下角 -->
+    <item android:right="0dp" android:bottom="0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#4CAF50" />
+            <size android:width="20dp" android:height="4dp" />
+        </shape>
+    </item>
+    <item android:right="0dp" android:bottom="0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#4CAF50" />
+            <size android:width="4dp" android:height="20dp" />
+        </shape>
+    </item>
+
+    <!-- 扫描线（动画使用） -->
+    <item android:id="@+id/scan_line">
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#00FFFFFF"
+                android:centerColor="#4CAF50"
+                android:endColor="#00FFFFFF"
+                android:angle="270" />
+            <size android:height="2dp" />
+        </shape>
+    </item>
+
+</layer-list>

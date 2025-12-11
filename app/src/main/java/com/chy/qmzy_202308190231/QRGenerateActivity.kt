@@ -313,6 +313,7 @@ class QRGenerateActivity : AppCompatActivity() {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
             fileOutputStream.close()
 
+            @Suppress("DEPRECATION")
             val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "QR Share", null)
             val uri = Uri.parse(path)
 

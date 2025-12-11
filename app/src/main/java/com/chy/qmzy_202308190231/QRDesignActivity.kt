@@ -14,6 +14,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
+import android.widget.GridLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
@@ -38,10 +39,8 @@ class QRDesignActivity : AppCompatActivity() {
     private lateinit var btnBack: ImageButton
     private lateinit var btnUploadQrCode: Button 
 
-    // 颜色选择 View
-    private lateinit var viewColorBlack: View
-    private lateinit var viewColorBlue: View
-    private lateinit var viewColorRed: View
+    // 颜色色板网格
+    private lateinit var colorPaletteGrid: GridLayout
 
     // 状态变量
     private var selectedColor = Color.BLACK
@@ -87,26 +86,27 @@ class QRDesignActivity : AppCompatActivity() {
         btnBack = findViewById(R.id.btnBack)
         btnUploadQrCode = findViewById(R.id.btnUploadQrCode)
 
-        viewColorBlack = findViewById(R.id.colorBlack)
-        viewColorBlue = findViewById(R.id.colorBlue)
-        viewColorRed = findViewById(R.id.colorRed)
+        colorPaletteGrid = findViewById(R.id.colorPaletteGrid)
     }
 
     private fun setupListeners() {
         btnBack.setOnClickListener { finish() }
 
-        // 颜色选择逻辑
-        viewColorBlack.setOnClickListener {
-            selectedColor = Color.BLACK
-            applyDesignToQrCode() 
-        }
-        viewColorBlue.setOnClickListener {
-            selectedColor = Color.parseColor("#1976D2")
-            applyDesignToQrCode() 
-        }
-        viewColorRed.setOnClickListener {
-            selectedColor = Color.parseColor("#D32F2F") 
-            applyDesignToQrCode() 
+        // 色板选择逻辑
+        for (i in 0 until colorPaletteGrid.childCount) {
+            val colorView = colorPaletteGrid.getChildAt(i)
+            colorView.setOnClickListener {
+                val colorTag = colorView.tag?.toString()
+                colorTag?.let {
+                    try {
+                        selectedColor = Color.parseColor(it)
+                        applyDesignToQrCode()
+                    } catch (e: IllegalArgumentException) {
+                        e.printStackTrace()
+                        Toast.makeText(this, "颜色解析错误: $it", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
 
         // Logo 上传
@@ -119,9 +119,13 @@ class QRDesignActivity : AppCompatActivity() {
             imagePickerForQrCodeLauncher.launch("image/*")
         }
 
-        // 生成按钮 (now "Apply Design")
+        // 保存二维码按钮
         btnGenerate.setOnClickListener {
-            applyDesignToQrCode()
+            if (currentGeneratedBitmap != null) {
+                checkPermissionAndSave()
+            } else {
+                Toast.makeText(this, "请先上传二维码图片", Toast.LENGTH_SHORT).show()
+            }
         }
 
         // 点击预览图保存
@@ -140,7 +144,6 @@ class QRDesignActivity : AppCompatActivity() {
 
             logoBitmap = scaleBitmap(bitmap, 200)
             btnAddLogo.text = "Logo 已选择"
-            Toast.makeText(this, "Logo 加载成功", Toast.LENGTH_SHORT).show()
             applyDesignToQrCode() 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -199,7 +202,6 @@ class QRDesignActivity : AppCompatActivity() {
 
             currentGeneratedBitmap = finalBitmap
             ivPreview.setImageBitmap(finalBitmap)
-            Toast.makeText(this, "设计已应用", Toast.LENGTH_SHORT).show()
 
         } catch (e: Exception) {
             e.printStackTrace()
