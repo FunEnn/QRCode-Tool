@@ -1,8 +1,7 @@
-package com.chy.qmzy_202308190231
+package com.chy.qmzy_202308190231.ui
 
 import android.content.ClipData
 import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -11,7 +10,12 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.chy.qmzy_202308190231.R
+import com.chy.qmzy_202308190231.navigateBack
+import com.chy.qmzy_202308190231.navigateToScan
+import com.chy.qmzy_202308190231.viewmodel.ResultViewModel
 
 class QRResultActivity : AppCompatActivity() {
 
@@ -21,8 +25,8 @@ class QRResultActivity : AppCompatActivity() {
     private lateinit var btnOpenLink: Button
     private lateinit var btnRescan: Button
     private lateinit var btnBack: ImageButton
-    
-    private var scanResult: String = ""
+
+    private val viewModel: ResultViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,24 +39,30 @@ class QRResultActivity : AppCompatActivity() {
         btnRescan = findViewById(R.id.btnRescan)
         btnBack = findViewById(R.id.btnBack)
 
-        scanResult = intent.getStringExtra("SCAN_RESULT") ?: ""
+        val scanResult = intent.getStringExtra("SCAN_RESULT") ?: ""
         val format = intent.getStringExtra("FORMAT") ?: "未知"
+        viewModel.init(format, scanResult)
 
-        tvFormat.text = format
-        tvContent.text = scanResult
+        viewModel.uiState.observe(this) { state ->
+            tvFormat.text = state.format
+            tvContent.text = state.content
+            btnOpenLink.visibility = if (state.showOpenLink) View.VISIBLE else View.GONE
+        }
 
-        if (isUrl(scanResult)) {
-            btnOpenLink.visibility = View.VISIBLE
-        } else {
-            btnOpenLink.visibility = View.GONE
+        viewModel.event.observe(this) { wrapper ->
+            val event = wrapper?.getContentIfNotHandled() ?: return@observe
+            when (event) {
+                is ResultViewModel.Event.Copy -> copyToClipboard(event.text)
+                is ResultViewModel.Event.OpenLink -> openUrl(event.url)
+            }
         }
 
         btnCopy.setOnClickListener {
-            copyToClipboard(scanResult)
+            viewModel.onCopyClicked()
         }
 
         btnOpenLink.setOnClickListener {
-            openUrl(scanResult)
+            viewModel.onOpenLinkClicked()
         }
 
         btnRescan.setOnClickListener {
@@ -64,14 +74,8 @@ class QRResultActivity : AppCompatActivity() {
         }
     }
 
-    private fun isUrl(text: String): Boolean {
-        return text.startsWith("http://", ignoreCase = true) ||
-                text.startsWith("https://", ignoreCase = true) ||
-                text.startsWith("www.", ignoreCase = true)
-    }
-
     private fun copyToClipboard(text: String) {
-        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("二维码内容", text)
         clipboard.setPrimaryClip(clip)
         Toast.makeText(this, "已复制到剪贴板", Toast.LENGTH_SHORT).show()
@@ -79,12 +83,7 @@ class QRResultActivity : AppCompatActivity() {
 
     private fun openUrl(url: String) {
         try {
-            var finalUrl = url
-            if (!url.startsWith("http://", ignoreCase = true) && 
-                !url.startsWith("https://", ignoreCase = true)) {
-                finalUrl = "https://$url"
-            }
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(finalUrl))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             startActivity(intent)
         } catch (e: Exception) {
             Toast.makeText(this, "无法打开链接: ${e.message}", Toast.LENGTH_SHORT).show()

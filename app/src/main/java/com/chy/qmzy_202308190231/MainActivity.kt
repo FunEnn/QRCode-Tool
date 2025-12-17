@@ -7,6 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.chy.qmzy_202308190231.ui.QRDesignActivity
+import com.chy.qmzy_202308190231.ui.QRGenerateActivity
+import com.chy.qmzy_202308190231.ui.QRScanActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var btnGenerate: View

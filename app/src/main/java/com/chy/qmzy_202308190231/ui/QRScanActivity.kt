@@ -1,4 +1,4 @@
-package com.chy.qmzy_202308190231
+package com.chy.qmzy_202308190231.ui
 
 import android.Manifest
 import android.content.Intent
@@ -7,17 +7,28 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Rational
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.*
+import androidx.camera.core.Camera
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ExperimentalGetImage
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageProxy
+import androidx.camera.core.Preview
+import androidx.camera.core.UseCaseGroup
+import androidx.camera.core.ViewPort
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.chy.qmzy_202308190231.R
+import com.chy.qmzy_202308190231.viewmodel.ScanViewModel
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
@@ -33,6 +44,8 @@ class QRScanActivity : AppCompatActivity() {
     private lateinit var cameraExecutor: ExecutorService
     private var camera: Camera? = null
     private var isScanning = true
+
+    private val viewModel: ScanViewModel by viewModels()
 
     companion object {
         private const val CAMERA_PERMISSION_CODE = 100
@@ -61,7 +74,7 @@ class QRScanActivity : AppCompatActivity() {
         cameraExecutor = Executors.newSingleThreadExecutor()
 
         btnBack.setOnClickListener {
-            finish() 
+            finish()
         }
 
         btnSelectFromGallery.setOnClickListener {
@@ -69,6 +82,27 @@ class QRScanActivity : AppCompatActivity() {
                 openGallery()
             } else {
                 requestStoragePermission()
+            }
+        }
+
+        viewModel.uiState.observe(this) { state ->
+            tvResult.text = state.hint
+        }
+
+        viewModel.event.observe(this) { wrapper ->
+            val event = wrapper?.getContentIfNotHandled() ?: return@observe
+            when (event) {
+                is ScanViewModel.Event.NavigateToResult -> {
+                    isScanning = false
+                    val intent = Intent(this, QRResultActivity::class.java)
+                    intent.putExtra("SCAN_RESULT", event.value)
+                    intent.putExtra("FORMAT", event.format)
+                    startActivity(intent)
+                    finish()
+                }
+                is ScanViewModel.Event.Toast -> {
+                    Toast.makeText(this, event.message, Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
@@ -153,7 +187,7 @@ class QRScanActivity : AppCompatActivity() {
 
     private fun processImageFromGallery(uri: Uri) {
         try {
-            tvResult.text = "正在识别图片中的二维码..."
+            viewModel.onGalleryScanStarted()
             val image = InputImage.fromFilePath(this, uri)
             val scanner = BarcodeScanning.getClient()
 
@@ -162,25 +196,19 @@ class QRScanActivity : AppCompatActivity() {
                     if (barcodes.isNotEmpty()) {
                         val barcode = barcodes[0]
                         barcode.rawValue?.let { value ->
-                            val intent = Intent(this, QRResultActivity::class.java)
-                            intent.putExtra("SCAN_RESULT", value)
-                            intent.putExtra("FORMAT", barcode.format.toString())
-                            startActivity(intent)
-                            finish()
+                            viewModel.onBarcodeDetected(value, barcode.format.toString())
                         } ?: run {
-                            tvResult.text = "未能识别二维码内容"
+                            viewModel.onGalleryScanFailed("未能识别二维码内容")
                         }
                     } else {
-                        tvResult.text = "图片中未找到二维码"
+                        viewModel.onGalleryScanNotFound()
                     }
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(this, "识别失败: ${e.message}", Toast.LENGTH_SHORT).show()
-                    tvResult.text = "识别失败"
+                    viewModel.onGalleryScanFailed(e.message ?: "")
                 }
         } catch (e: Exception) {
-            Toast.makeText(this, "图片加载失败: ${e.message}", Toast.LENGTH_SHORT).show()
-            tvResult.text = "图片加载失败"
+            viewModel.onGalleryScanFailed(e.message ?: "图片加载失败")
         }
     }
 
@@ -209,11 +237,24 @@ class QRScanActivity : AppCompatActivity() {
 
             try {
                 cameraProvider.unbindAll()
+
+                val viewPort = ViewPort.Builder(
+                    Rational(1, 1),
+                    previewView.display.rotation
+                )
+                    .setScaleType(ViewPort.FILL_CENTER)
+                    .build()
+
+                val useCaseGroup = UseCaseGroup.Builder()
+                    .setViewPort(viewPort)
+                    .addUseCase(preview)
+                    .addUseCase(imageAnalyzer)
+                    .build()
+
                 camera = cameraProvider.bindToLifecycle(
                     this,
                     cameraSelector,
-                    preview,
-                    imageAnalyzer
+                    useCaseGroup
                 )
             } catch (e: Exception) {
                 Toast.makeText(this, "相机启动失败: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -227,16 +268,7 @@ class QRScanActivity : AppCompatActivity() {
 
         for (barcode in barcodes) {
             barcode.rawValue?.let { value ->
-                isScanning = false
-                runOnUiThread {
-                    tvResult.text = "扫描成功！\n内容: $value"
-                    
-                    val intent = Intent(this, QRResultActivity::class.java)
-                    intent.putExtra("SCAN_RESULT", value)
-                    intent.putExtra("FORMAT", barcode.format.toString())
-                    startActivity(intent)
-                    finish()
-                }
+                viewModel.onBarcodeDetected(value, barcode.format.toString())
                 return
             }
         }
@@ -253,7 +285,7 @@ class QRScanActivity : AppCompatActivity() {
 
         private val scanner = BarcodeScanning.getClient()
 
-        @androidx.camera.core.ExperimentalGetImage
+        @ExperimentalGetImage
         override fun analyze(imageProxy: ImageProxy) {
             val mediaImage = imageProxy.image
             if (mediaImage != null) {

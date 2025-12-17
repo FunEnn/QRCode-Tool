@@ -2,6 +2,7 @@ package com.chy.qmzy_202308190231
 
 import android.app.Activity
 import android.content.Intent
+import com.chy.qmzy_202308190231.ui.QRScanActivity
 
 /**
  * 简单返回上一页

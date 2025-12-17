@@ -41,21 +41,21 @@
         </activity>
 
         <activity
-            android:name=".QRScanActivity"
+            android:name=".ui.QRScanActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".QRResultActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".QRGenerateActivity"
+            android:name=".ui.QRResultActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".QRDesignActivity"
+            android:name=".ui.QRGenerateActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.QRDesignActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 
