@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/colorBackground"
+    android:background="@drawable/bg_app_window"
     tools:context=".ui.QRDesignActivity">
 
     <!-- 顶部标题栏 -->
@@ -112,14 +112,16 @@
                 android:textColor="?attr/colorOnSurface"/>
 
             <!-- 色板选择 GridLayout -->
+
+            <!-- 高级选项 -->
             <GridLayout
                 android:id="@+id/colorPaletteGrid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:alignmentMode="alignBounds"
                 android:columnCount="5"
-                android:useDefaultMargins="true"
-                android:alignmentMode="alignBounds">
+                android:useDefaultMargins="true">
 
                 <View
                     android:layout_width="48dp"
@@ -127,99 +129,109 @@
                     android:background="#000000"
                     android:clickable="true"
                     android:focusable="true"
-                    android:tag="#000000"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:tag="#000000" />
+
                 <View
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="#2F6BFF"
                     android:clickable="true"
                     android:focusable="true"
-                    android:tag="#2F6BFF"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:tag="#2F6BFF" />
+
                 <View
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="#006A60"
                     android:clickable="true"
                     android:focusable="true"
-                    android:tag="#006A60"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:tag="#006A60" />
+
                 <View
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="#D32F2F"
                     android:clickable="true"
                     android:focusable="true"
-                    android:tag="#D32F2F"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:tag="#D32F2F" />
+
                 <View
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="#7B1FA2"
                     android:clickable="true"
                     android:focusable="true"
-                    android:tag="#7B1FA2"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:tag="#7B1FA2" />
+
                 <View
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="#FF9800"
                     android:clickable="true"
                     android:focusable="true"
-                    android:tag="#FF9800"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:tag="#FF9800" />
+
                 <View
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="#0097A7"
                     android:clickable="true"
                     android:focusable="true"
-                    android:tag="#0097A7"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:tag="#0097A7" />
+
                 <View
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="#455A64"
                     android:clickable="true"
                     android:focusable="true"
-                    android:tag="#455A64"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:tag="#455A64" />
+
                 <View
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="#689F38"
                     android:clickable="true"
                     android:focusable="true"
-                    android:tag="#689F38"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:tag="#689F38" />
+
                 <View
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="#FF5722"
                     android:clickable="true"
                     android:focusable="true"
-                    android:tag="#FF5722"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:tag="#FF5722" />
+
                 <View
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="#5D4037"
                     android:clickable="true"
                     android:focusable="true"
-                    android:tag="#5D4037"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:tag="#5D4037" />
+
                 <View
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="#C2185B"
                     android:clickable="true"
                     android:focusable="true"
-                    android:tag="#C2185B"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:tag="#C2185B" />
             </GridLayout>
 
-            <!-- 高级选项 -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

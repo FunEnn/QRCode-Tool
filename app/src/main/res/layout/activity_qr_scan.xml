@@ -75,7 +75,7 @@
         android:id="@+id/ivScanLine"
         android:layout_width="250dp"
         android:layout_height="2dp"
-        android:background="#4CAF50"
+        android:background="?attr/colorTertiary"
         android:alpha="0.8"
         app:layout_constraintTop_toTopOf="@id/scanFrame"
         app:layout_constraintBottom_toBottomOf="@id/scanFrame"

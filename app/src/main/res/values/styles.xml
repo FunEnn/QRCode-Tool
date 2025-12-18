@@ -2,7 +2,7 @@
 <resources>
 
     <style name="Widget.QRTool.Toolbar" parent="Widget.Material3.Toolbar">
-        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:background">@drawable/bg_toolbar_gradient</item>
         <item name="titleTextColor">?attr/colorOnPrimary</item>
         <item name="subtitleTextColor">?attr/colorOnPrimary</item>
     </style>

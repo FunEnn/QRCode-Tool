@@ -4,6 +4,6 @@
     <solid android:color="#00000000" /> <!-- 透明填充 -->
     <stroke
         android:width="2dp"
-        android:color="#FFFFFF" /> <!-- 白色边框 -->
+        android:color="?attr/colorPrimary" /> <!-- 白色边框 -->
     <corners android:radius="12dp" />
 </shape>
