@@ -29,6 +29,8 @@ class QRGenerateActivity : AppCompatActivity() {
     // 类型切换按钮
     private lateinit var btnTypeText: Button
     private lateinit var btnTypeUrl: Button
+    private lateinit var btnTypePhone: Button
+    private lateinit var btnTypeEmail: Button
 
     private lateinit var etContent: EditText
     private lateinit var btnGenerate: Button
@@ -96,6 +98,8 @@ class QRGenerateActivity : AppCompatActivity() {
         // 初始化类型切换按钮
         btnTypeText = findViewById(R.id.btnTypeText)
         btnTypeUrl = findViewById(R.id.btnTypeUrl)
+        btnTypePhone = findViewById(R.id.btnTypePhone)
+        btnTypeEmail = findViewById(R.id.btnTypeEmail)
 
         etContent = findViewById(R.id.etContent)
         btnGenerate = findViewById(R.id.btnGenerate)
@@ -113,6 +117,8 @@ class QRGenerateActivity : AppCompatActivity() {
         // 类型切换监听
         btnTypeText.setOnClickListener { switchType(GenerateViewModel.QrType.TEXT) }
         btnTypeUrl.setOnClickListener { switchType(GenerateViewModel.QrType.URL) }
+        btnTypePhone.setOnClickListener { switchType(GenerateViewModel.QrType.PHONE) }
+        btnTypeEmail.setOnClickListener { switchType(GenerateViewModel.QrType.EMAIL) }
 
         btnGenerate.setOnClickListener {
             viewModel.onGenerateClicked(etContent.text?.toString() ?: "")
@@ -144,10 +150,14 @@ class QRGenerateActivity : AppCompatActivity() {
 
         btnTypeText.setBackgroundColor(if (type == GenerateViewModel.QrType.TEXT) selectedColor else unselectedColor)
         btnTypeUrl.setBackgroundColor(if (type == GenerateViewModel.QrType.URL) selectedColor else unselectedColor)
+        btnTypePhone.setBackgroundColor(if (type == GenerateViewModel.QrType.PHONE) selectedColor else unselectedColor)
+        btnTypeEmail.setBackgroundColor(if (type == GenerateViewModel.QrType.EMAIL) selectedColor else unselectedColor)
 
         // 按钮文字颜色反转逻辑（可选，为了更好的视觉效果）
         btnTypeText.setTextColor(if (type == GenerateViewModel.QrType.TEXT) Color.WHITE else Color.parseColor("#666666"))
         btnTypeUrl.setTextColor(if (type == GenerateViewModel.QrType.URL) Color.WHITE else Color.parseColor("#666666"))
+        btnTypePhone.setTextColor(if (type == GenerateViewModel.QrType.PHONE) Color.WHITE else Color.parseColor("#666666"))
+        btnTypeEmail.setTextColor(if (type == GenerateViewModel.QrType.EMAIL) Color.WHITE else Color.parseColor("#666666"))
 
         // 更新界面显示
         when (type) {
@@ -156,6 +166,12 @@ class QRGenerateActivity : AppCompatActivity() {
             }
             GenerateViewModel.QrType.URL -> {
                 etContent.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI
+            }
+            GenerateViewModel.QrType.PHONE -> {
+                etContent.inputType = InputType.TYPE_CLASS_PHONE
+            }
+            GenerateViewModel.QrType.EMAIL -> {
+                etContent.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
             }
         }
     }

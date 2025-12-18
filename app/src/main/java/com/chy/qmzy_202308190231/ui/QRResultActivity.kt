@@ -50,6 +50,7 @@ class QRResultActivity : AppCompatActivity() {
         viewModel.uiState.observe(this) { state ->
             tvFormat.text = state.format
             tvContent.text = state.content
+            btnOpenLink.text = state.openActionText
             btnOpenLink.visibility = if (state.showOpenLink) View.VISIBLE else View.GONE
         }
 
@@ -57,7 +58,7 @@ class QRResultActivity : AppCompatActivity() {
             val event = wrapper?.getContentIfNotHandled() ?: return@observe
             when (event) {
                 is ResultViewModel.Event.Copy -> copyToClipboard(event.text)
-                is ResultViewModel.Event.OpenLink -> openUrl(event.url)
+                is ResultViewModel.Event.OpenLink -> openUri(event.url)
             }
         }
 
@@ -84,7 +85,7 @@ class QRResultActivity : AppCompatActivity() {
         Toast.makeText(this, "已复制到剪贴板", Toast.LENGTH_SHORT).show()
     }
 
-    private fun openUrl(url: String) {
+    private fun openUri(url: String) {
         try {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             startActivity(intent)

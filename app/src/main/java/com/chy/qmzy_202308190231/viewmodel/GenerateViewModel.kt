@@ -1,6 +1,7 @@
 package com.chy.qmzy_202308190231.viewmodel
 
 import android.graphics.Bitmap
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +12,7 @@ class GenerateViewModel : ViewModel() {
     private val generateQrBitmapUseCase = AppServices.generateQrBitmapUseCase
 
     enum class QrType {
-        TEXT, URL
+        TEXT, URL, PHONE, EMAIL
     }
 
     data class UiState(
@@ -44,16 +45,35 @@ class GenerateViewModel : ViewModel() {
         }
 
         val current = _uiState.value ?: UiState()
-        if (current.type == QrType.URL) {
-            if (!isValidUrl(content)) {
-                if (!content.startsWith("http://") && !content.startsWith("https://")) {
-                    content = "https://$content"
-                    _event.value = OneTimeEvent(Event.UpdateInput(content))
-                } else {
-                    _event.value = OneTimeEvent(Event.Toast("请输入有效的网址"))
-                    return
+        when (current.type) {
+            QrType.URL -> {
+                if (!isValidUrl(content)) {
+                    if (!content.startsWith("http://") && !content.startsWith("https://")) {
+                        content = "https://$content"
+                        _event.value = OneTimeEvent(Event.UpdateInput(content))
+                    } else {
+                        _event.value = OneTimeEvent(Event.Toast("请输入有效的网址"))
+                        return
+                    }
                 }
             }
+            QrType.PHONE -> {
+                val normalized = normalizePhone(content)
+                if (normalized == null) {
+                    _event.value = OneTimeEvent(Event.Toast("请输入有效的手机号/电话"))
+                    return
+                }
+                content = normalized
+            }
+            QrType.EMAIL -> {
+                val normalized = normalizeEmail(content)
+                if (normalized == null) {
+                    _event.value = OneTimeEvent(Event.Toast("请输入有效的邮箱"))
+                    return
+                }
+                content = normalized
+            }
+            QrType.TEXT -> Unit
         }
 
         val bitmap = generateQrBitmapUseCase.execute(content, QR_CODE_SIZE)
@@ -91,6 +111,23 @@ class GenerateViewModel : ViewModel() {
         } catch (_: Exception) {
             false
         }
+    }
+
+    private fun normalizePhone(input: String): String? {
+        val t = input.trim()
+        val raw = if (t.startsWith("tel:", ignoreCase = true)) t.substringAfter(":").trim() else t
+        val phone = raw.replace(" ", "").replace("-", "")
+        if (phone.isEmpty()) return null
+        if (!Regex("^[+]?\\d{3,20}$").matches(phone)) return null
+        return "tel:$phone"
+    }
+
+    private fun normalizeEmail(input: String): String? {
+        val t = input.trim()
+        val raw = if (t.startsWith("mailto:", ignoreCase = true)) t.substringAfter(":").trim() else t
+        if (raw.isEmpty()) return null
+        if (!Patterns.EMAIL_ADDRESS.matcher(raw).matches()) return null
+        return "mailto:$raw"
     }
 
     companion object {
