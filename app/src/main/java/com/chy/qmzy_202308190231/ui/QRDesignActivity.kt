@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat
 import com.chy.qmzy_202308190231.utils.ImageStoreUtils
 import com.chy.qmzy_202308190231.R
 import com.chy.qmzy_202308190231.viewmodel.DesignViewModel
+import com.google.android.material.appbar.MaterialToolbar
 
 class QRDesignActivity : AppCompatActivity() {
 
@@ -28,8 +29,10 @@ class QRDesignActivity : AppCompatActivity() {
    private lateinit var ivPreview: ImageView
    private lateinit var btnAddLogo: Button
    private lateinit var btnGenerate: Button
-   private lateinit var btnBack: ImageButton
+   private var btnBack: ImageButton? = null
    private lateinit var btnUploadQrCode: Button
+
+   private lateinit var header: MaterialToolbar
 
    // 颜色色板网格
    private lateinit var colorPaletteGrid: GridLayout
@@ -86,17 +89,20 @@ class QRDesignActivity : AppCompatActivity() {
    }
 
    private fun initViews() {
+       header = findViewById(R.id.header)
+
        ivPreview = findViewById(R.id.ivPreview)
        btnAddLogo = findViewById(R.id.btnAddLogo)
        btnGenerate = findViewById(R.id.btnGenerate)
-       btnBack = findViewById(R.id.btnBack)
+       btnBack = findViewById<ImageButton?>(R.id.btnBack)
        btnUploadQrCode = findViewById(R.id.btnUploadQrCode)
 
        colorPaletteGrid = findViewById(R.id.colorPaletteGrid)
    }
 
    private fun setupListeners() {
-       btnBack.setOnClickListener { finish() }
+       btnBack?.setOnClickListener { finish() }
+       header.setNavigationOnClickListener { finish() }
 
        // 色板选择逻辑
        for (i in 0 until colorPaletteGrid.childCount) {

@@ -2,6 +2,37 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.QMZY_202308190231" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">#B6C4FF</item>
+        <item name="colorOnPrimary">#002B73</item>
+        <item name="colorPrimaryContainer">#0040A3</item>
+        <item name="colorOnPrimaryContainer">#DDE6FF</item>
+
+        <item name="colorSecondary">#C3C6DD</item>
+        <item name="colorOnSecondary">#2C3042</item>
+        <item name="colorSecondaryContainer">#434659</item>
+        <item name="colorOnSecondaryContainer">#E0E3F9</item>
+
+        <item name="colorTertiary">#4FDBCB</item>
+        <item name="colorOnTertiary">#003731</item>
+        <item name="colorTertiaryContainer">#005047</item>
+        <item name="colorOnTertiaryContainer">#73F8E7</item>
+
+        <item name="colorError">#FFB4AB</item>
+        <item name="colorOnError">#690005</item>
+        <item name="colorErrorContainer">#93000A</item>
+        <item name="colorOnErrorContainer">#FFDAD6</item>
+
+        <item name="android:colorBackground">#121318</item>
+        <item name="colorOnBackground">#E3E1E9</item>
+
+        <item name="colorSurface">#121318</item>
+        <item name="colorOnSurface">#E3E1E9</item>
+        <item name="colorSurfaceVariant">#45464F</item>
+        <item name="colorOnSurfaceVariant">#C6C6D0</item>
+        <item name="colorOutline">#8F909A</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 </resources>

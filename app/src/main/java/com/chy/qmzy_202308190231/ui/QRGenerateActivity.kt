@@ -18,6 +18,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.material.appbar.MaterialToolbar
 import com.chy.qmzy_202308190231.utils.ImageShareUtils
 import com.chy.qmzy_202308190231.utils.ImageStoreUtils
 import com.chy.qmzy_202308190231.R
@@ -38,7 +39,8 @@ class QRGenerateActivity : AppCompatActivity() {
     private lateinit var ivQRCode: ImageView
     private lateinit var btnSave: Button
     private lateinit var btnShare: Button
-    private lateinit var btnBack: ImageButton
+    private var btnBack: ImageButton? = null
+    private lateinit var header: MaterialToolbar
 
     private var currentQRBitmap: Bitmap? = null
 
@@ -89,6 +91,8 @@ class QRGenerateActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
+        header = findViewById(R.id.header)
+
         // 初始化类型切换按钮
         btnTypeText = findViewById(R.id.btnTypeText)
         btnTypeUrl = findViewById(R.id.btnTypeUrl)
@@ -102,7 +106,7 @@ class QRGenerateActivity : AppCompatActivity() {
         ivQRCode = findViewById(R.id.ivQRCode)
         btnSave = findViewById(R.id.btnSave)
         btnShare = findViewById(R.id.btnShare)
-        btnBack = findViewById(R.id.btnBack)
+        btnBack = findViewById<ImageButton?>(R.id.btnBack)
     }
 
     private fun setupListeners() {
@@ -122,9 +126,8 @@ class QRGenerateActivity : AppCompatActivity() {
             viewModel.onShareClicked()
         }
 
-        btnBack.setOnClickListener {
-            finish()
-        }
+        btnBack?.setOnClickListener { finish() }
+        header.setNavigationOnClickListener { finish() }
     }
 
     private fun switchType(type: GenerateViewModel.QrType) {

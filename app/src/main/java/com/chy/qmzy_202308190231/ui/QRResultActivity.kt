@@ -16,6 +16,7 @@ import com.chy.qmzy_202308190231.R
 import com.chy.qmzy_202308190231.navigateBack
 import com.chy.qmzy_202308190231.navigateToScan
 import com.chy.qmzy_202308190231.viewmodel.ResultViewModel
+import com.google.android.material.appbar.MaterialToolbar
 
 class QRResultActivity : AppCompatActivity() {
 
@@ -24,7 +25,8 @@ class QRResultActivity : AppCompatActivity() {
     private lateinit var btnCopy: Button
     private lateinit var btnOpenLink: Button
     private lateinit var btnRescan: Button
-    private lateinit var btnBack: ImageButton
+    private var btnBack: ImageButton? = null
+    private lateinit var header: MaterialToolbar
 
     private val viewModel: ResultViewModel by viewModels()
 
@@ -32,12 +34,14 @@ class QRResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_result)
 
+        header = findViewById(R.id.header)
+
         tvFormat = findViewById(R.id.tvFormat)
         tvContent = findViewById(R.id.tvContent)
         btnCopy = findViewById(R.id.btnCopy)
         btnOpenLink = findViewById(R.id.btnOpenLink)
         btnRescan = findViewById(R.id.btnRescan)
-        btnBack = findViewById(R.id.btnBack)
+        btnBack = findViewById<ImageButton?>(R.id.btnBack)
 
         val scanResult = intent.getStringExtra("SCAN_RESULT") ?: ""
         val format = intent.getStringExtra("FORMAT") ?: "未知"
@@ -69,9 +73,8 @@ class QRResultActivity : AppCompatActivity() {
             navigateToScan()
         }
 
-        btnBack.setOnClickListener {
-            navigateBack()
-        }
+        btnBack?.setOnClickListener { navigateBack() }
+        header.setNavigationOnClickListener { navigateBack() }
     }
 
     private fun copyToClipboard(text: String) {

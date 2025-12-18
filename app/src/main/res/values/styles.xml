@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.QRTool.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="titleTextColor">?attr/colorOnPrimary</item>
+        <item name="subtitleTextColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="Widget.QRTool.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">?attr/colorSurface</item>
+        <item name="cardCornerRadius">@dimen/qrtool_radius_card</item>
+        <item name="cardElevation">@dimen/qrtool_elevation_card</item>
+    </style>
+
+    <style name="Widget.QRTool.Button.Primary" parent="Widget.Material3.Button">
+        <item name="android:insetTop">@dimen/qrtool_inset_button</item>
+        <item name="android:insetBottom">@dimen/qrtool_inset_button</item>
+        <item name="android:backgroundTint">?attr/colorPrimary</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="Widget.QRTool.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:insetTop">@dimen/qrtool_inset_button</item>
+        <item name="android:insetBottom">@dimen/qrtool_inset_button</item>
+        <item name="strokeColor">?attr/colorPrimary</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+
+    <style name="Widget.QRTool.Button.Tertiary" parent="Widget.Material3.Button">
+        <item name="android:insetTop">@dimen/qrtool_inset_button</item>
+        <item name="android:insetBottom">@dimen/qrtool_inset_button</item>
+        <item name="android:backgroundTint">?attr/colorTertiary</item>
+        <item name="android:textColor">?attr/colorOnTertiary</item>
+    </style>
+
+</resources>

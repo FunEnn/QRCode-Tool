@@ -5,31 +5,23 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F7FA"
+    android:background="?android:attr/colorBackground"
     tools:context=".MainActivity">
 
     <!-- Header 区域 -->
-    <LinearLayout
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/header"
+        style="@style/Widget.QRTool.Toolbar"
         android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:background="#1976D2"
-        android:elevation="4dp"
-        android:gravity="center"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:minHeight="56dp"
+        android:title="二维码工具箱"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="二维码工具箱"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp" />
 
     <!-- 内容滚动区域 -->
     <androidx.core.widget.NestedScrollView
@@ -37,7 +29,7 @@
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:fillViewport="true"
-        android:paddingBottom="24dp"
+        android:paddingBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,14 +38,14 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:paddingHorizontal="16dp">
 
             <!-- 欢迎语/Slogan -->
             <LinearLayout
                 android:id="@+id/layoutWelcome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintTop_toTopOf="parent">
@@ -62,17 +54,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="极简 · 高效 · 智能"
-                    android:textColor="#1976D2"
-                    android:textSize="18sp"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="6dp"
                     android:text="您的随身二维码助手"
-                    android:textColor="#757575"
-                    android:textSize="13sp" />
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <!-- 核心功能入口区 (第一行：基础功能) -->
@@ -80,13 +72,14 @@
                 android:id="@+id/layoutActions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@id/layoutWelcome">
 
                 <!-- 1. 扫描功能卡片 -->
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/btnStartScanCard"
+                    style="@style/Widget.QRTool.Card"
                     android:layout_width="0dp"
                     android:layout_height="140dp"
                     android:layout_marginEnd="8dp"
@@ -94,7 +87,6 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground"
-                    app:cardBackgroundColor="#FFFFFF"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="2dp">
 
@@ -107,25 +99,23 @@
                             android:id="@+id/ivScanIcon"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:background="#E8F5E9"
+                            android:background="@drawable/bg_circular_shape"
+                            android:backgroundTint="?attr/colorTertiaryContainer"
                             android:padding="10dp"
                             android:src="@android:drawable/ic_menu_camera"
-                            app:layout_constraintBottom_toTopOf="@+id/tvScanTitle"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_chainStyle="packed"
-                            app:tint="#4CAF50" />
+                            app:tint="?attr/colorOnTertiaryContainer" />
 
                         <TextView
                             android:id="@+id/tvScanTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginTop="16dp"
                             android:text="扫一扫"
-                            android:textColor="#333333"
-                            android:textSize="17sp"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="18sp"
                             android:textStyle="bold"
-                            app:layout_constraintBottom_toTopOf="@+id/tvScanDesc"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/ivScanIcon" />
 
@@ -133,20 +123,20 @@
                             android:id="@+id/tvScanDesc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="识别二维码"
-                            android:textColor="#999999"
-                            android:textSize="12sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginTop="4dp"
+                            android:text="识别二维码/条形码"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:textSize="13sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvScanTitle" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
                 <!-- 2. 生成功能卡片 -->
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/btnGenerateCard"
+                    style="@style/Widget.QRTool.Card"
                     android:layout_width="0dp"
                     android:layout_height="140dp"
                     android:layout_marginStart="8dp"
@@ -154,7 +144,6 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground"
-                    app:cardBackgroundColor="#FFFFFF"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="2dp">
 
@@ -167,25 +156,23 @@
                             android:id="@+id/ivGenIcon"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:background="#E3F2FD"
+                            android:background="@drawable/bg_circular_shape"
+                            android:backgroundTint="?attr/colorPrimaryContainer"
                             android:padding="10dp"
-                            android:src="@android:drawable/ic_menu_add"
-                            app:layout_constraintBottom_toTopOf="@+id/tvGenTitle"
+                            android:src="@android:drawable/ic_menu_edit"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_chainStyle="packed"
-                            app:tint="#2196F3" />
+                            app:tint="?attr/colorOnPrimaryContainer" />
 
                         <TextView
                             android:id="@+id/tvGenTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginTop="16dp"
                             android:text="去生成"
-                            android:textColor="#333333"
-                            android:textSize="17sp"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="18sp"
                             android:textStyle="bold"
-                            app:layout_constraintBottom_toTopOf="@+id/tvGenDesc"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/ivGenIcon" />
 
@@ -193,29 +180,28 @@
                             android:id="@+id/tvGenDesc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="制作个性码"
-                            android:textColor="#999999"
-                            android:textSize="12sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginTop="4dp"
+                            android:text="制作个性二维码"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:textSize="13sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvGenTitle" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
 
             <!-- 新增：个性化设计入口 (第二行：高级功能) -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/btnDesignCard"
+                style="@style/Widget.QRTool.Card"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginTop="16dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
-                app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
                 app:layout_constraintTop_toBottomOf="@id/layoutActions">
@@ -230,13 +216,14 @@
                         android:id="@+id/ivDesignIcon"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:background="#FFF3E0"
+                        android:background="@drawable/bg_circular_shape"
+                        android:backgroundTint="?attr/colorSecondaryContainer"
                         android:padding="10dp"
-                        android:src="@android:drawable/ic_menu_edit"
+                        android:src="@android:drawable/ic_menu_share"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="#FF9800" />
+                        app:tint="?attr/colorOnSecondaryContainer" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -251,8 +238,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="个性化美化"
-                            android:textColor="#333333"
+                            android:text="高级美化"
+                            android:textColor="?attr/colorOnSurface"
                             android:textSize="17sp"
                             android:textStyle="bold" />
 
@@ -260,35 +247,26 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="自定义颜色、添加Logo、修改背景"
-                            android:textColor="#999999"
+                            android:text="颜色、Logo、背景深度定制"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
 
-                    <!-- 右侧箭头指示 -->
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_back_arrow"
-                        android:rotation="180"
-                        app:tint="#CCCCCC"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- 功能列表卡片 (Features) -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardFeatures"
+                style="@style/Widget.QRTool.Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="1dp"
-                app:layout_constraintTop_toBottomOf="@id/btnDesignCard">
+                android:layout_marginTop="32dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:layout_constraintTop_toBottomOf="@id/btnDesignCard"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -304,17 +282,17 @@
 
                         <View
                             android:layout_width="4dp"
-                            android:layout_height="16dp"
-                            android:background="#1976D2"
-                            android:backgroundTint="#1976D2" />
+                            android:layout_height="18dp"
+                            android:background="?attr/colorPrimary"
+                            android:backgroundTint="?attr/colorPrimary" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="功能特点"
-                            android:textColor="#333333"
-                            android:textSize="16sp"
+                            android:layout_marginStart="10dp"
+                            android:text="核心功能特点"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -322,15 +300,15 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="20dp"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="📸  极速扫描"
-                            android:textColor="#333333"
-                            android:textSize="14sp"
+                            android:text="📸  极速精准扫描"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -338,16 +316,16 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="支持 QR、条形码等多种格式，相册图片一键识别"
-                            android:textColor="#666666"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginBottom="12dp"
-                        android:background="#F0F0F0" />
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="?attr/colorSurfaceVariant" />
 
                     <!-- Feature Item 2 -->
                     <LinearLayout
@@ -358,26 +336,26 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="🎨  个性创作"
-                            android:textColor="#333333"
-                            android:textSize="14sp"
+                            android:text="🎨  个性化创作"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="文本、网址、名片快速生成，支持高清保存"
-                            android:textColor="#666666"
+                            android:text="文本、网址、名片快速生成，支持高清保存和美化"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginBottom="12dp"
-                        android:background="#F0F0F0" />
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="?attr/colorSurfaceVariant" />
 
                     <!-- Feature Item 3 -->
                     <LinearLayout
@@ -388,23 +366,23 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="🔗  智能处理"
-                            android:textColor="#333333"
-                            android:textSize="14sp"
+                            android:text="🔗  结果智能处理"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="自动识别链接，一键复制分享，操作更便捷"
-                            android:textColor="#666666"
+                            android:text="自动识别链接，一键复制分享，操作更便捷高效"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

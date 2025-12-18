@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="qrtool_radius_card">16dp</dimen>
+    <dimen name="qrtool_radius_button">28dp</dimen>
+
+    <dimen name="qrtool_elevation_card">2dp</dimen>
+
+    <dimen name="qrtool_height_button_primary">56dp</dimen>
+    <dimen name="qrtool_height_button_secondary">48dp</dimen>
+
+    <dimen name="qrtool_inset_button">0dp</dimen>
+
+    <dimen name="qrtool_padding_screen">16dp</dimen>
+    <dimen name="qrtool_spacing_sm">8dp</dimen>
+    <dimen name="qrtool_spacing_md">12dp</dimen>
+    <dimen name="qrtool_spacing_lg">24dp</dimen>
+
+</resources>

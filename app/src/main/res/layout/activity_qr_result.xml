@@ -4,47 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F7FA"
+    android:background="?android:attr/colorBackground"
     tools:context=".ui.QRResultActivity">
 
     <!-- Header 区域 -->
-    <LinearLayout
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/header"
+        style="@style/Widget.QRTool.Toolbar"
         android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:background="#1976D2"
-        android:elevation="4dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="8dp"
-        android:paddingEnd="16dp"
+        android:layout_height="wrap_content"
+        android:minHeight="56dp"
+        android:title="扫描结果"
+        app:subtitle="扫描结果"
+        app:titleTextColor="?attr/colorOnPrimary"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge"
+        app:subtitleTextColor="?attr/colorOnPrimary"
+        app:subtitleTextAppearance="@style/TextAppearance.Material3.BodySmall"
+        app:navigationIcon="@drawable/ic_back_arrow"
+        app:navigationIconTint="?attr/colorOnPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="返回"
-            android:padding="12dp"
-            android:src="@drawable/ic_back_arrow"
-            app:tint="#FFFFFF" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="扫描结果"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <!-- 内容区域 -->
     <androidx.core.widget.NestedScrollView
@@ -61,7 +41,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp">
 
             <!-- 顶部状态图标区域 -->
             <LinearLayout
@@ -77,10 +58,11 @@
                     android:id="@+id/ivStatusIcon"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
-                    android:background="#F0F0F0"
+                    android:background="@drawable/bg_circular_shape"
+                    android:backgroundTint="?attr/colorTertiaryContainer"
                     android:padding="16dp"
-                    android:src="@android:drawable/ic_input_add"
-                    app:tint="#4CAF50" />
+                    android:src="@android:drawable/ic_dialog_info"
+                    app:tint="?attr/colorTertiary" />
 
                 <TextView
                     android:id="@+id/tvTitle"
@@ -88,48 +70,53 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="识别成功"
-                    android:textColor="#333333"
-                    android:textSize="22sp"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="#F0F0F0"
-                    android:paddingStart="12dp"
-                    android:paddingTop="4dp"
-                    android:paddingEnd="12dp"
-                    android:paddingBottom="4dp">
+                    android:layout_marginTop="12dp"
+                    app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="0dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="格式: "
-                        android:textColor="#757575"
-                        android:textSize="12sp" />
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="4dp">
 
-                    <TextView
-                        android:id="@+id/tvFormat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="QR_CODE"
-                        android:textColor="#1976D2"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="格式: "
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tvFormat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="QR_CODE"
+                            android:textColor="?attr/colorPrimary"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
 
             <!-- 结果内容卡片 -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                app:cardBackgroundColor="#FFFFFF"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
+                app:cardElevation="4dp"
                 app:layout_constraintTop_toBottomOf="@id/layoutStatus">
 
                 <LinearLayout
@@ -142,8 +129,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="📄 扫描内容"
-                        android:textColor="#333333"
-                        android:textSize="16sp"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <View
@@ -151,27 +138,27 @@
                         android:layout_height="1dp"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="12dp"
-                        android:background="#F0F0F0" />
+                        android:background="?attr/colorSurfaceVariant" />
 
                     <!-- 使用带背景的滚动区域显示内容 -->
                     <ScrollView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:background="#FAFAFA"
+                        android:background="?attr/colorSurfaceVariant"
                         android:padding="12dp"
-                        android:scrollbars="vertical">
+                        android:scrollbars="vertical"
+                        android:minHeight="100dp">
 
                         <TextView
                             android:id="@+id/tvContent"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:lineSpacingExtra="6dp"
-                            android:minHeight="100dp"
                             android:text="这里显示扫描到的二维码内容..."
-                            android:textColor="#424242"
+                            android:textColor="?attr/colorOnSurface"
                             android:textIsSelectable="true"
-                            android:textSize="15sp" />
+                            android:textSize="16sp" />
                     </ScrollView>
 
                     <!-- 操作按钮组 (复制/打开) -->
@@ -181,48 +168,45 @@
                         android:layout_marginTop="20dp"
                         android:orientation="horizontal">
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnCopy"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_weight="1"
                             android:layout_marginEnd="8dp"
                             android:text="复制内容"
-                            android:textColor="#1976D2"
                             app:icon="@android:drawable/ic_menu_save"
-                            app:iconTint="#1976D2"
-                            app:strokeColor="#1976D2"
+                            app:iconTint="?attr/colorPrimary"
+                            app:strokeColor="?attr/colorPrimary"
                             app:cornerRadius="24dp" />
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnOpenLink"
+                            style="@style/Widget.Material3.Button.TonalButton"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_weight="1"
                             android:layout_marginStart="8dp"
-                            android:backgroundTint="#FF9800"
                             android:text="打开链接"
-                            android:textColor="#FFFFFF"
                             android:visibility="gone"
                             tools:visibility="visible"
                             app:icon="@android:drawable/ic_menu_view"
-                            app:iconTint="#FFFFFF"
+                            app:iconTint="?attr/colorOnTertiaryContainer"
                             app:cornerRadius="24dp" />
                     </LinearLayout>
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- 底部大按钮 -->
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnRescan"
+                style="@style/Widget.Material3.Button.Icon"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_marginTop="32dp"
-                android:backgroundTint="#4CAF50"
                 android:text="继续扫描"
-                android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:elevation="4dp"
@@ -230,7 +214,7 @@
                 app:icon="@android:drawable/ic_menu_camera"
                 app:iconGravity="textStart"
                 app:iconPadding="8dp"
-                app:iconTint="#FFFFFF"
+                app:iconTint="?attr/colorOnPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cardContent" />

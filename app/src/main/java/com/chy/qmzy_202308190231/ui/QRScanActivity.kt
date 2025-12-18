@@ -34,6 +34,7 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 class QRScanActivity : AppCompatActivity() {
 
@@ -43,6 +44,7 @@ class QRScanActivity : AppCompatActivity() {
     private lateinit var btnSelectFromGallery: Button
     private lateinit var cameraExecutor: ExecutorService
     private var camera: Camera? = null
+    private var cameraProvider: ProcessCameraProvider? = null
     private var isScanning = true
 
     private val viewModel: ScanViewModel by viewModels()
@@ -217,6 +219,7 @@ class QRScanActivity : AppCompatActivity() {
 
         cameraProviderFuture.addListener({
             val cameraProvider = cameraProviderFuture.get()
+            this.cameraProvider = cameraProvider
 
             val preview = Preview.Builder()
                 .build()
@@ -263,6 +266,11 @@ class QRScanActivity : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
+    override fun onStop() {
+        super.onStop()
+        cameraProvider?.unbindAll()
+    }
+
     private fun processBarcodes(barcodes: List<Barcode>) {
         if (!isScanning || barcodes.isEmpty()) return
 
@@ -276,7 +284,9 @@ class QRScanActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        cameraProvider?.unbindAll()
         cameraExecutor.shutdown()
+        cameraExecutor.awaitTermination(500, TimeUnit.MILLISECONDS)
     }
 
     private class BarcodeAnalyzer(
