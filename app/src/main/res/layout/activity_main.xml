@@ -190,8 +190,8 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="支持 QR、条形码等多种格式，相册图片一键识别"
                             android:textColor="?attr/colorOnSurfaceVariant"
+                            android:text=""
                             android:textSize="13sp"
                             tools:layout_editor_absoluteX="-115dp"
                             tools:layout_editor_absoluteY="110dp" />
