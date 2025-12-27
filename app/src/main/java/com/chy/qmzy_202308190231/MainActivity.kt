@@ -25,10 +25,10 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        // 1. 获取生成二维码按钮 (注意 ID 变成了 btnGenerateCard)
+        // 1. 获取生成二维码按钮
         btnGenerate = findViewById(R.id.btnGenerateCard)
 
-        // 2. 获取扫一扫按钮 (注意 ID 是 btnStartScanCard)
+        // 2. 获取扫一扫按钮
         btnStartScan = findViewById(R.id.btnStartScanCard)
 
         // 3. 设置生成按钮点击事件

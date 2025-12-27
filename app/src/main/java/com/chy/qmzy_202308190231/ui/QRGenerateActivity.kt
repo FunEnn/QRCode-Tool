@@ -157,7 +157,7 @@ class QRGenerateActivity : AppCompatActivity() {
         btnTypePhone.setBackgroundColor(if (type == GenerateViewModel.QrType.PHONE) selectedColor else unselectedColor)
         btnTypeEmail.setBackgroundColor(if (type == GenerateViewModel.QrType.EMAIL) selectedColor else unselectedColor)
 
-        // 按钮文字颜色反转逻辑（可选，为了更好的视觉效果）
+        // 按钮文字颜色反转逻辑
         btnTypeText.setTextColor(if (type == GenerateViewModel.QrType.TEXT) Color.WHITE else Color.parseColor("#666666"))
         btnTypeUrl.setTextColor(if (type == GenerateViewModel.QrType.URL) Color.WHITE else Color.parseColor("#666666"))
         btnTypePhone.setTextColor(if (type == GenerateViewModel.QrType.PHONE) Color.WHITE else Color.parseColor("#666666"))

@@ -11,8 +11,8 @@ class ZxingQrBitmapGenerator {
         return try {
             val hints = hashMapOf<EncodeHintType, Any>()
             hints[EncodeHintType.CHARACTER_SET] = "UTF-8"
-            hints[EncodeHintType.MARGIN] = 1
-            hints[EncodeHintType.ERROR_CORRECTION] = com.google.zxing.qrcode.decoder.ErrorCorrectionLevel.M
+            hints[EncodeHintType.MARGIN] = 2
+            hints[EncodeHintType.ERROR_CORRECTION] = com.google.zxing.qrcode.decoder.ErrorCorrectionLevel.H
 
             val bitMatrix = QRCodeWriter().encode(
                 content,
