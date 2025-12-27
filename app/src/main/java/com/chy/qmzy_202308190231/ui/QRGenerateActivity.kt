@@ -18,7 +18,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.chy.qmzy_202308190231.QrApplication
 import com.google.android.material.appbar.MaterialToolbar
+import com.chy.qmzy_202308190231.di.AppViewModelFactory
 import com.chy.qmzy_202308190231.utils.ImageShareUtils
 import com.chy.qmzy_202308190231.utils.ImageStoreUtils
 import com.chy.qmzy_202308190231.R
@@ -46,7 +48,9 @@ class QRGenerateActivity : AppCompatActivity() {
 
     private var currentQRBitmap: Bitmap? = null
 
-    private val viewModel: GenerateViewModel by viewModels()
+    private val viewModel: GenerateViewModel by viewModels {
+        AppViewModelFactory((application as QrApplication).appContainer)
+    }
 
     companion object {
         private const val STORAGE_PERMISSION_CODE = 102

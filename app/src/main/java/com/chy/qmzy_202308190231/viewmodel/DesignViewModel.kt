@@ -4,11 +4,11 @@ import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.chy.qmzy_202308190231.data.di.AppServices
+import com.chy.qmzy_202308190231.domain.usecase.ApplyQrDesignUseCase
 
-class DesignViewModel : ViewModel() {
-
-    private val applyQrDesignUseCase = AppServices.applyQrDesignUseCase
+class DesignViewModel(
+    private val applyQrDesignUseCase: ApplyQrDesignUseCase
+) : ViewModel() {
 
     data class UiState(
         val preview: Bitmap? = null

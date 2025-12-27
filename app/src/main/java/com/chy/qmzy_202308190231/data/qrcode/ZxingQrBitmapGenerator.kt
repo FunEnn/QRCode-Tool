@@ -2,13 +2,12 @@ package com.chy.qmzy_202308190231.data.qrcode
 
 import android.graphics.Bitmap
 import android.graphics.Color
-import com.chy.qmzy_202308190231.domain.qrcode.QrBitmapGenerator
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
 
-class ZxingQrBitmapGenerator : QrBitmapGenerator {
-    override fun generate(content: String, size: Int): Bitmap? {
+class ZxingQrBitmapGenerator {
+    fun generate(content: String, size: Int): Bitmap? {
         return try {
             val hints = hashMapOf<EncodeHintType, Any>()
             hints[EncodeHintType.CHARACTER_SET] = "UTF-8"

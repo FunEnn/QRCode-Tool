@@ -18,8 +18,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.chy.qmzy_202308190231.QrApplication
 import com.chy.qmzy_202308190231.utils.ImageStoreUtils
 import com.chy.qmzy_202308190231.R
+import com.chy.qmzy_202308190231.di.AppViewModelFactory
 import com.chy.qmzy_202308190231.viewmodel.DesignViewModel
 import com.google.android.material.appbar.MaterialToolbar
 
@@ -37,7 +39,9 @@ class QRDesignActivity : AppCompatActivity() {
    // 颜色色板网格
    private lateinit var colorPaletteGrid: GridLayout
 
-   private val viewModel: DesignViewModel by viewModels()
+   private val viewModel: DesignViewModel by viewModels {
+       AppViewModelFactory((application as QrApplication).appContainer)
+   }
 
    // 图片选择器 for logo
    private val imagePickerForLogoLauncher = registerForActivityResult(

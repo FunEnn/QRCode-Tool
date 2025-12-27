@@ -5,11 +5,11 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.chy.qmzy_202308190231.data.di.AppServices
+import com.chy.qmzy_202308190231.domain.usecase.GenerateQrBitmapUseCase
 
-class GenerateViewModel : ViewModel() {
-
-    private val generateQrBitmapUseCase = AppServices.generateQrBitmapUseCase
+class GenerateViewModel(
+    private val generateQrBitmapUseCase: GenerateQrBitmapUseCase
+) : ViewModel() {
 
     enum class QrType {
         TEXT, URL, PHONE, EMAIL
